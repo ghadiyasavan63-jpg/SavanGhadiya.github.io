@@ -1,122 +1,179 @@
-// LOADING SCREEN
+/* =====================================================
+   SAVAN GHADIYA — WEBSITE JAVASCRIPT
+   ===================================================== */
+
+
+/* ================= LOADER ================= */
+
 
 window.addEventListener("load", () => {
 
-    const loader = document.getElementById("loader");
+    const loader =
+        document.getElementById("loader");
 
     setTimeout(() => {
 
-        loader.style.opacity = "0";
+        loader.classList.add("hide");
 
-        setTimeout(() => {
-            loader.style.display = "none";
-        }, 1000);
-
-    }, 1200);
+    }, 1700);
 
 });
 
 
-// MOUSE PARALLAX
-
-const visual = document.querySelector(".hero-visual");
-
-document.addEventListener("mousemove", (event) => {
-
-    if (!visual) return;
-
-    const x = (window.innerWidth / 2 - event.clientX) / 40;
-    const y = (window.innerHeight / 2 - event.clientY) / 40;
-
-    visual.style.transform =
-        `translate(${x}px, ${y}px)`;
-
-});
+/* ================= MOUSE MOVEMENT ================= */
 
 
-// REVEAL ANIMATION
+const heroVisual =
+    document.querySelector(".hero-right");
 
-const sections =
-    document.querySelectorAll(".section");
 
-const observer = new IntersectionObserver(
-    entries => {
+if (heroVisual) {
 
-        entries.forEach(entry => {
+    document.addEventListener(
+        "mousemove",
+        (event) => {
 
-            if (entry.isIntersecting) {
+            const x =
+                (window.innerWidth / 2 -
+                    event.clientX) / 45;
 
-                entry.target.classList.add("visible");
+            const y =
+                (window.innerHeight / 2 -
+                    event.clientY) / 45;
 
-            }
 
-        });
+            heroVisual.style.transform =
+                `translate(${x}px, ${y}px)`;
 
-    },
-    {
-        threshold: .15
+        }
+    );
+
+}
+
+
+/* ================= SCROLL REVEAL ================= */
+
+
+const revealElements =
+    document.querySelectorAll(
+        ".intro-section, .statement-section, .why-section, .goal-section"
+    );
+
+
+const observer =
+    new IntersectionObserver(
+
+        (entries) => {
+
+            entries.forEach(
+                (entry) => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.style.opacity =
+                            "1";
+
+                        entry.target.style.transform =
+                            "translateY(0)";
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold: .12
+        }
+
+    );
+
+
+revealElements.forEach(
+    (element) => {
+
+        element.style.opacity = "0";
+
+        element.style.transform =
+            "translateY(50px)";
+
+        element.style.transition =
+            "opacity 1s ease, transform 1s ease";
+
+        observer.observe(element);
+
     }
 );
 
-sections.forEach(section => {
-    observer.observe(section);
-});
 
+/* ================= CARD TILT ================= */
 
-// CARD TILT EFFECT
 
 const cards =
-    document.querySelectorAll(".skill-card, .project");
-
-cards.forEach(card => {
-
-    card.addEventListener("mousemove", e => {
-
-        const rect = card.getBoundingClientRect();
-
-        const x =
-            e.clientX - rect.left;
-
-        const y =
-            e.clientY - rect.top;
-
-        const centerX =
-            rect.width / 2;
-
-        const centerY =
-            rect.height / 2;
-
-        const rotateX =
-            (y - centerY) / 20;
-
-        const rotateY =
-            (centerX - x) / 20;
-
-        card.style.transform =
-            `perspective(800px)
-             rotateX(${rotateX}deg)
-             rotateY(${rotateY}deg)
-             translateY(-5px)`;
-
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform = "";
-
-    });
-
-});
+    document.querySelectorAll(
+        ".why-card"
+    );
 
 
-// CURRENT YEAR
+cards.forEach(
+    (card) => {
 
-const footer =
-    document.querySelector("footer p");
+        card.addEventListener(
+            "mousemove",
+            (event) => {
 
-if (footer) {
+                const rect =
+                    card.getBoundingClientRect();
 
-    footer.innerHTML =
-        `© ${new Date().getFullYear()} Savan Ghadiya. All rights reserved.`;
 
-}
+                const x =
+                    event.clientX -
+                    rect.left;
+
+
+                const y =
+                    event.clientY -
+                    rect.top;
+
+
+                const centerX =
+                    rect.width / 2;
+
+
+                const centerY =
+                    rect.height / 2;
+
+
+                const rotateX =
+                    (y - centerY) / 25;
+
+
+                const rotateY =
+                    (centerX - x) / 25;
+
+
+                card.style.transform =
+                    `perspective(700px)
+                     rotateX(${rotateX}deg)
+                     rotateY(${rotateY}deg)
+                     translateY(-8px)`;
+
+            }
+        );
+
+
+        card.addEventListener(
+            "mouseleave",
+            () => {
+
+                card.style.transform =
+                    "";
+
+            }
+        );
+
+    }
+);
